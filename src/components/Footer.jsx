@@ -63,7 +63,6 @@ function AppBadge({ store }) {
         </a>
     );
 }
-
 function Footer() {
     return (
         <footer className="min-h-[440px] w-full bg-black text-[#fafafa]">

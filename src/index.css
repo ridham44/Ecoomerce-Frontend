@@ -10,3 +10,53 @@ body {
     background-color: #ffffff;
     color: #111827;
 }
+
+.account-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 75px;
+    margin-top: 80px;
+}
+
+.account-layout > aside {
+    width: 220px;
+    flex: 0 0 220px;
+}
+
+.account-profile-card {
+    width: 870px;
+    min-height: 630px;
+    border-radius: 4px;
+    background: #ffffff;
+    padding: 40px 80px;
+    box-shadow: 0 1px 13px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1180px) {
+    .account-layout {
+        gap: 48px;
+    }
+
+    .account-profile-card {
+        width: calc(100% - 268px);
+    }
+}
+
+@media (max-width: 980px) {
+    .account-layout {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .account-layout > aside,
+    .account-profile-card {
+        width: 100%;
+        flex-basis: auto;
+    }
+}
+
+@media (max-width: 760px) {
+    .account-profile-card {
+        padding: 32px 24px;
+    }
+}

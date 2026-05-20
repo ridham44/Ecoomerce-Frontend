@@ -24,6 +24,16 @@ function ProtectedRoute({ isAuthenticated, children }) {
   return children
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return null
+}
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem('exclusive-auth') === 'true')
   const navigate = useNavigate()
@@ -44,6 +54,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white text-black">
+      <ScrollToTop />
       <Header isAuthenticated={isAuthenticated} wishlistCount={isAuthenticated ? 4 : 0} cartCount={isAuthenticated ? 2 : 0} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Home />} />

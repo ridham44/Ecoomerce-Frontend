@@ -1,17 +1,35 @@
 import { FaApple, FaFacebookF, FaGooglePlay, FaInstagram, FaLinkedinIn, FaRegPaperPlane, FaTwitter } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import qrCode from '../assets/images/qr code.svg';
 
 const footerColumns = [
     {
         title: 'Support',
-        links: ['44 Ahmedabad Gujarat India.', 'exclusive@gmail.com', '+88015-88888-9999'],
+        links: [
+            { label: '44 Ahmedabad Gujarat India.' },
+            { label: 'exclusive@gmail.com', href: 'mailto:exclusive@gmail.com' },
+            { label: '+88015-88888-9999', href: 'tel:+88015888889999' },
+        ],
     },
     {
         title: 'Account',
-        links: ['My Account', 'Login / Register', 'Cart', 'Wishlist', 'Shop'],
+        links: [
+            { label: 'My Account', to: '/account' },
+            { label: 'Login / Register', to: '/login' },
+            { label: 'Cart', to: '/cart' },
+            { label: 'Checkout', to: '/cart/checkout' },
+            { label: 'Wishlist', to: '/wishlist' },
+        ],
     },
     {
-        title: 'Quick Link',
-        links: ['Privacy Policy', 'Terms Of Use', 'FAQ', 'Contact'],
+        title: 'Pages',
+        links: [
+            { label: 'Home', to: '/' },
+            { label: 'Shop', to: '/' },
+            { label: 'About', to: '/about' },
+            { label: 'Contact', to: '/contact' },
+            { label: 'Sign Up', to: '/signup' },
+        ],
     },
 ];
 
@@ -21,23 +39,21 @@ function FooterColumn({ title, links }) {
             <h3 className="mb-6 m-0 text-xl font-medium leading-7 text-[#fafafa] max-[760px]:mb-4">{title}</h3>
             <ul className="m-0 flex list-none flex-col gap-4 p-0 max-[760px]:gap-3">
                 {links.map((link) => (
-                    <li key={link}>
-                        <a className="block max-w-[175px] text-base leading-6 text-[#fafafa] no-underline" href="#footer">
-                            {link}
-                        </a>
+                    <li key={link.label}>
+                        {link.to ? (
+                            <Link className="block max-w-[175px] text-base leading-6 text-[#fafafa] no-underline" to={link.to}>
+                                {link.label}
+                            </Link>
+                        ) : link.href ? (
+                            <a className="block max-w-[175px] text-base leading-6 text-[#fafafa] no-underline" href={link.href}>
+                                {link.label}
+                            </a>
+                        ) : (
+                            <span className="block max-w-[175px] text-base leading-6 text-[#fafafa]">{link.label}</span>
+                        )}
                     </li>
                 ))}
             </ul>
-        </div>
-    );
-}
-
-function QrCode() {
-    return (
-        <div className="grid h-20 w-20 grid-cols-7 gap-0.5 bg-white p-[3px]" aria-label="QR code">
-            {Array.from({ length: 49 }).map((_, index) => (
-                <span key={index} className={(index * 7 + index * index) % 5 < 2 ? 'bg-black' : 'bg-white'} />
-            ))}
         </div>
     );
 }
@@ -99,7 +115,7 @@ function Footer() {
                     <h3 className="mb-6 m-0 text-xl font-medium leading-7 text-[#fafafa] max-[760px]:mb-4">Download App</h3>
                     <p className="mb-2 mt-0 text-xs font-medium leading-[18px] text-[#fafafa]/70">Save $3 with App New User Only</p>
                     <div className="mb-6 flex items-center gap-2">
-                        <QrCode />
+                        <img className="h-20 w-20 bg-white object-contain" src={qrCode} alt="QR code" />
                         <div className="grid gap-1">
                             <AppBadge store="google" />
                             <AppBadge store="apple" />

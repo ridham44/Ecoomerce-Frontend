@@ -70,12 +70,22 @@ const heroSlides = [
   },
 ]
 
-const speakerCountdown = [
-  { value: '23', label: 'Hours' },
-  { value: '05', label: 'Days' },
-  { value: '59', label: 'Minutes' },
-  { value: '35', label: 'Seconds' },
-]
+const flashSaleEndsAt = new Date(2026, 4, 31, 0, 0, 0).getTime()
+
+function getFlashSaleTimeLeft() {
+  const totalSeconds = Math.max(0, Math.floor((flashSaleEndsAt - Date.now()) / 1000))
+  const days = Math.floor(totalSeconds / 86400)
+  const hours = Math.floor((totalSeconds % 86400) / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+
+  return {
+    days: String(days).padStart(2, '0'),
+    hours: String(hours).padStart(2, '0'),
+    minutes: String(minutes).padStart(2, '0'),
+    seconds: String(seconds).padStart(2, '0'),
+  }
+}
 
 const featuredItems = [
   {
@@ -162,8 +172,32 @@ function ServiceHighlight({ item }) {
   )
 }
 
+function FlashSaleCountdown({ timeLeft }) {
+  const timeParts = [
+    { label: 'Days', value: timeLeft.days },
+    { label: 'Hours', value: timeLeft.hours },
+    { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
+  ]
+
+  return (
+    <div className="flex items-end gap-[17px] max-[560px]:gap-3" aria-label="Flash sale countdown">
+      {timeParts.map((part, index) => (
+        <div key={part.label} className="flex items-end gap-[17px] max-[560px]:gap-3">
+          <div className="min-w-[46px]">
+            <p className="m-0 text-xs font-medium leading-[18px] text-black">{part.label}</p>
+            <strong className="block text-[32px] font-bold leading-[30px] tracking-[0.04em] text-black max-[560px]:text-2xl">{part.value}</strong>
+          </div>
+          {index < timeParts.length - 1 ? <span className="pb-1 text-[32px] font-semibold leading-none text-[#db4444]">:</span> : null}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function Home() {
   const [activeSlide, setActiveSlide] = useState(0)
+  const [flashSaleTimeLeft, setFlashSaleTimeLeft] = useState(getFlashSaleTimeLeft)
   const currentSlide = heroSlides[activeSlide]
   const productRowRef = useRef(null)
   const categoryRowRef = useRef(null)
@@ -172,6 +206,14 @@ function Home() {
     const timer = window.setInterval(() => {
       setActiveSlide((slide) => (slide + 1) % heroSlides.length)
     }, 4500)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setFlashSaleTimeLeft(getFlashSaleTimeLeft())
+    }, 1000)
 
     return () => window.clearInterval(timer)
   }, [])
@@ -274,7 +316,17 @@ function Home() {
 
       <section className="mt-[140px] w-full max-[760px]:mt-20">
         <div className="mx-auto w-[min(calc(100vw-48px),1170px)] max-[760px]:w-[calc(100vw-32px)]">
-          <SectionTitle label="Today's" title="Flash Sales">
+          <div className="flex items-end justify-between gap-6 max-[760px]:flex-col max-[760px]:items-start">
+            <div className="flex items-end gap-[87px] max-[980px]:gap-10 max-[760px]:flex-col max-[760px]:items-start max-[760px]:gap-6">
+              <div>
+                <div className="mb-6 flex items-center gap-4">
+                  <span className="h-10 w-5 rounded bg-[#db4444]" aria-hidden="true" />
+                  <p className="m-0 text-base font-semibold leading-5 text-[#db4444]">Today's</p>
+                </div>
+                <h2 className="m-0 text-4xl font-semibold leading-[48px] tracking-[0.04em] text-black max-[760px]:text-3xl">Flash Sales</h2>
+              </div>
+              <FlashSaleCountdown timeLeft={flashSaleTimeLeft} />
+            </div>
             <div className="flex items-center gap-2">
               <button
                 className="grid h-[46px] w-[46px] place-items-center rounded-full border-0 bg-[#f5f5f5] text-black transition hover:bg-[#e9e9e9]"
@@ -293,7 +345,7 @@ function Home() {
                 <FiArrowRight className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
-          </SectionTitle>
+          </div>
         </div>
 
         <div
@@ -377,7 +429,12 @@ function Home() {
             Enhance Your Music Experience
           </h2>
           <div className="mt-8 flex flex-wrap gap-6 max-[760px]:gap-3">
-            {speakerCountdown.map((item) => (
+            {[
+              { value: flashSaleTimeLeft.days, label: 'Days' },
+              { value: flashSaleTimeLeft.hours, label: 'Hrs' },
+              { value: flashSaleTimeLeft.minutes, label: 'Min' },
+              { value: flashSaleTimeLeft.seconds, label: 'Sec' },
+            ].map((item) => (
               <div key={item.label} className="flex h-[62px] w-[62px] flex-col items-center justify-center rounded-full bg-white text-black">
                 <span className="text-base font-semibold leading-5">{item.value}</span>
                 <span className="text-[11px] leading-[18px]">{item.label}</span>

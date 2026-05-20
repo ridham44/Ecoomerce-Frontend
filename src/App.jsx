@@ -7,9 +7,12 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Account from './pages/Account'
 import About from './pages/About'
+import Contact from './pages/Contact'
 import Wishlist from './pages/Wishlist'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
+import NotFound from './pages/NotFound'
+import ProductDetails from './pages/ProductDetails'
 
 function ProtectedRoute({ isAuthenticated, children }) {
   const location = useLocation()
@@ -47,6 +50,8 @@ function App() {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path="/account" element={<Account />} />
         <Route
           path="/wishlist"
@@ -72,6 +77,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>

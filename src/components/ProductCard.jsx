@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 import { FiEye, FiHeart } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 
 function ProductCard({ product }) {
   const [selectedVariant, setSelectedVariant] = useState(0)
   const activeVariant = product.variants?.[selectedVariant]
   const productImage = activeVariant?.image ?? product.image
+  const detailPath = product.detailPath
 
   return (
     <article className="w-[270px] shrink-0">
@@ -16,11 +18,23 @@ function ProductCard({ product }) {
           <button className="grid h-[34px] w-[34px] place-items-center rounded-full border-0 bg-white text-black" type="button" aria-label={`Add ${product.title} to wishlist`}>
             <FiHeart className="h-5 w-5" aria-hidden="true" />
           </button>
-          <button className="grid h-[34px] w-[34px] place-items-center rounded-full border-0 bg-white text-black" type="button" aria-label={`Quick view ${product.title}`}>
-            <FiEye className="h-5 w-5" aria-hidden="true" />
-          </button>
+          {detailPath ? (
+            <Link className="grid h-[34px] w-[34px] place-items-center rounded-full border-0 bg-white text-black no-underline" to={detailPath} aria-label={`Quick view ${product.title}`}>
+              <FiEye className="h-5 w-5" aria-hidden="true" />
+            </Link>
+          ) : (
+            <button className="grid h-[34px] w-[34px] place-items-center rounded-full border-0 bg-white text-black" type="button" aria-label={`Quick view ${product.title}`}>
+              <FiEye className="h-5 w-5" aria-hidden="true" />
+            </button>
+          )}
         </div>
-        <img className="h-[180px] w-[210px] object-contain transition duration-300 group-hover:scale-105" src={productImage} alt={activeVariant?.label ?? product.title} />
+        {detailPath ? (
+          <Link className="flex h-full w-full items-center justify-center no-underline" to={detailPath} aria-label={`View ${product.title}`}>
+            <img className="h-[180px] w-[210px] object-contain transition duration-300 group-hover:scale-105" src={productImage} alt={activeVariant?.label ?? product.title} />
+          </Link>
+        ) : (
+          <img className="h-[180px] w-[210px] object-contain transition duration-300 group-hover:scale-105" src={productImage} alt={activeVariant?.label ?? product.title} />
+        )}
         <button
           className="absolute bottom-0 left-0 h-[41px] w-full translate-y-full border-0 bg-black text-base font-medium leading-6 text-white transition group-hover:translate-y-0 group-focus-within:translate-y-0"
           type="button"
@@ -29,7 +43,15 @@ function ProductCard({ product }) {
         </button>
       </div>
       <div className="mt-4">
-        <h3 className="m-0 text-base font-medium leading-6 text-black">{product.title}</h3>
+        <h3 className="m-0 text-base font-medium leading-6 text-black">
+          {detailPath ? (
+            <Link className="text-black no-underline" to={detailPath}>
+              {product.title}
+            </Link>
+          ) : (
+            product.title
+          )}
+        </h3>
         <div className="mt-2 flex items-center gap-3">
           <span className="text-base font-medium leading-6 text-[#db4444]">${product.price}</span>
           {product.oldPrice ? <span className="text-base font-medium leading-6 text-black/50 line-through">${product.oldPrice}</span> : null}

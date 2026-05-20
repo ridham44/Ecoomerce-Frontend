@@ -1,4 +1,5 @@
 import appleWatch from '../assets/images/cardimage/ap watch.jpg'
+import audemarsPiguetWatch from '../assets/images/watch/Audemars Piguet home page image.jpg'
 import chanelPurse from '../assets/images/cardimage/chenel purse.jpg'
 import heels from '../assets/images/cardimage/female hills.avif'
 import sunglasses from '../assets/images/cardimage/sunglasses.jpg'
@@ -19,14 +20,15 @@ import patekWatch from '../assets/images/cardimage/Patek Philippe watch.webp'
 
 export const flashSaleProducts = [
   {
-    id: 'apple-watch',
-    title: 'Apple Watch Series',
-    image: appleWatch,
+    id: 'audemars-piguet-royal-oak',
+    title: 'Audemars Piguet Royal Oak',
+    image: audemarsPiguetWatch,
     discount: '-40%',
-    price: 120,
-    oldPrice: 160,
+    price: 93000,
+    oldPrice: 116000,
     rating: 5,
     reviews: 88,
+    detailPath: '/product/audemars-piguet-royal-oak',
   },
   {
     id: 'chanel-purse',

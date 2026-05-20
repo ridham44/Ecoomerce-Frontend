@@ -4,7 +4,7 @@ import { FiHeart, FiLogOut, FiSearch, FiShoppingBag, FiShoppingCart, FiStar, FiU
 
 const navLinks = [
   { label: 'Home', to: '/' },
-  { label: 'Contact', to: '/#contact' },
+  { label: 'Contact', to: '/contact' },
   { label: 'About', to: '/about' },
   { label: 'Sign Up', to: '/signup' },
 ]

@@ -63,7 +63,14 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/product/:productId" element={<ProductDetails />} />
-        <Route path="/account" element={<Account />} />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Account />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/wishlist"
           element={
